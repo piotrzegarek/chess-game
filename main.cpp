@@ -1,25 +1,13 @@
-#include <SFML/Graphics.hpp>
+#include "Application.h"
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!", sf::Style::Fullscreen);
+    Application application;
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-            {
-                window.close();
-            }
-        }
-
-        window.display();
+    // Main app loop
+    while (application.isRunning()) {
+        application.update();
+        application.render();
     }
 
     return 0;
