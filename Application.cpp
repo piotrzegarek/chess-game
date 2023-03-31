@@ -4,6 +4,7 @@
 
 Application::Application() {
 	this->initWindow();
+	this->initFont();
 }
 
 Application::~Application() {
@@ -37,6 +38,10 @@ void Application::initWindow() {
 	this->video_mode.height = 720;
 
 	this->window.create(this->video_mode, "Chees game", sf::Style::Close, context_settings);
+}
+
+void Application::initFont() {
+	this->font.loadFromFile("res/font.ttf");
 }
 
 void Application::handleEvents() {

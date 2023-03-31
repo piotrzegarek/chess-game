@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Application.h"
+#include "Button.h"
 
 class Application {
 private:
@@ -17,7 +18,10 @@ private:
 	sf::Font font;
 	sf::Vector2f mouse_position;
 
+	std::map<const std::string, Button> Buttons;
+
 	void initWindow();
+	void initFont();
 	void handleEvents();
 
 	void renderBackground();
