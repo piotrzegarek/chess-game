@@ -17,6 +17,8 @@ bool Application::isRunning() const {
 void Application::render() {
 	this->window.clear();
 
+	this->renderBackground();
+
 	this->window.display();
 }
 
@@ -47,4 +49,24 @@ void Application::handleEvents() {
 			window.close();
 
 	}
+}
+
+void Application::renderBackground() {
+
+	if (!this->BackgroundTexture.loadFromFile("images/background.jpg"))
+	{
+		return;
+	}
+	else
+	{
+		this->TextureSize = this->BackgroundTexture.getSize(); //Get size of texture.
+		this->WindowSize = this->window.getSize();             //Get size of window.
+
+		float ScaleX = (float)WindowSize.x / TextureSize.x;
+		float ScaleY = (float)WindowSize.y / TextureSize.y;     //Calculate scale.
+
+		this->background.setTexture(this->BackgroundTexture);
+		this->background.setScale(ScaleX, ScaleY);      //Set scale.  
+	}
+	this->window.draw(this->background);
 }
