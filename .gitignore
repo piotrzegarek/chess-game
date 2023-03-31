@@ -32,9 +32,6 @@
 *.app
 /.vs/chess-game
 /x64/Debug
-/chess-game.sln
-/chess-game.vcxproj
-/chess-game.vcxproj.filters
-/chess-game.vcxproj.user
-/chess-game.vcxproj.filters
-/chess-game.vcxproj
+*.sln
+*.vcxproj
+*.vcxproj.*
