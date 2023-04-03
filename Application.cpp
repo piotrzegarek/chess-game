@@ -47,7 +47,7 @@ Application::~Application()
 {
 	delete this->window;
 
-	while (this->states.empty())
+	while (!this->states.empty())
 	{
 		delete this->states.top();
 		this->states.pop();
@@ -56,18 +56,9 @@ Application::~Application()
 
 
 // Functions
-void Application::updateSFMLEvents()
+void Application::endApplication()
 {
-	/* Handle SFML window events. */
-	while (this->window->pollEvent(this->sfEvent))
-	{
-		if (this->sfEvent.type == sf::Event::Closed)
-			this->window->close();
-
-		if (this->sfEvent.type == sf::Event::KeyPressed && this->sfEvent.key.code == sf::Keyboard::Escape)
-			this->window->close();
-
-	}
+	std::cout << "Ending app" << "\n";
 }
 
 void Application::updateDt()
@@ -77,12 +68,37 @@ void Application::updateDt()
 	this->dt = this->dtClock.restart().asSeconds();
 }
 
+void Application::updateSFMLEvents()
+{
+	/* Handle SFML window events. */
+	while (this->window->pollEvent(this->sfEvent))
+	{
+		if (this->sfEvent.type == sf::Event::Closed)
+			this->window->close();
+	}
+}
+
 void Application::update()
 {
 	/* Handle all appliaction events and update active app state. */
 	this->updateSFMLEvents();
 	if (!this->states.empty())
+	{
 		this->states.top()->update(this->dt);
+
+		if (this->states.top()->getQuit())
+		{
+			this->states.top()->endState();
+			delete this->states.top();
+			this->states.pop();
+		}
+	}
+	// Application exit
+	else
+	{
+		this->endApplication();
+		this->window->close();
+	}
 }
 
 void Application::render()
