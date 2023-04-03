@@ -1,39 +1,42 @@
-#pragma once
+#ifndef GAME_H
+#define GAME_H
 
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+#include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
-#include "Application.h"
-#include "Button.h"
+#include <SFML/Window.hpp>
 
-class Application {
+
+class Application
+{
 private:
-	sf::RenderWindow window;
-	sf::Event event;
-	sf::VideoMode video_mode;
+	// Variables
+	sf::RenderWindow *window;
+	sf::Event sfEvent;
 
-	sf::Texture BackgroundTexture;
-	sf::Sprite background;
-	sf::Vector2u TextureSize;
-	sf::Vector2u WindowSize;
+	sf::Clock dtClock;
+	float dt;
 
-	sf::Font font;
-	sf::Vector2f mouse_position;
-
-	std::map<const std::string, Button> Buttons;
-
+	// Initializer functions
 	void initWindow();
-	void initFont();
-	void handleEvents();
 
-	void renderBackground();
-
+	
 public:
+	//Constructors/Destructors
 	Application();
-	~Application();
+	virtual ~Application();
 
+	// Functions
+	void updateDt();
+	void updateSFMLEvents();
 	void update();
 	void render();
+	void run();
 
-
-	bool isRunning() const;
 };
+
+#endif
 
