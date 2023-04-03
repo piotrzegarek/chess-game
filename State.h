@@ -6,6 +6,9 @@
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
+#include <vector>
+#include <stack>
+#include <map>
 
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>
@@ -15,18 +18,21 @@ class State
 {
 private:
 	// Variables
+	sf::RenderWindow* window;
 	std::vector<sf::Texture> textures;
 
 	// Initializer functions
 
 public:
 	//Constructors/Destructors
-	State();
+	State(sf::RenderWindow* window);
 	virtual ~State();
 
 	//Functions
-	virtual void update() = 0;
-	virtual void render() = 0;
+	virtual void endState() = 0;
+
+	virtual void update(const float& dt) = 0;
+	virtual void render(sf::RenderTarget* target = nullptr) = 0;
 };
 
 #endif

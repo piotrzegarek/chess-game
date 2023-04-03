@@ -30,16 +30,28 @@ void Application::initWindow()
 	this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }
 
+void Application::initStates()
+{
+	this->states.push(new GameState(this->window));
+}
+
 
 // Constructors/Destructors
 Application::Application()
 {
 	this->initWindow();
+	this->initStates();
 }
 
 Application::~Application()
 {
 	delete this->window;
+
+	while (this->states.empty())
+	{
+		delete this->states.top();
+		this->states.pop();
+	}
 }
 
 
@@ -67,16 +79,20 @@ void Application::updateDt()
 
 void Application::update()
 {
-	/* Handle all appliaction events and update app state. */
+	/* Handle all appliaction events and update active app state. */
 	this->updateSFMLEvents();
+	if (!this->states.empty())
+		this->states.top()->update(this->dt);
 }
 
 void Application::render()
 {
-	/* Render application window data. */
+	/* Render the top (active) state data. */
 	this->window->clear();
 
 	// Render items
+	if (!this->states.empty())
+		this->states.top()->render(this->window);
 
 	this->window->display();
 }
