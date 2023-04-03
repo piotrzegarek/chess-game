@@ -1,10 +1,17 @@
 #include "GameState.h"
 
-// Constructors/Destructors
-GameState::GameState(sf::RenderWindow* window)
-	: State(window)
+// Initialize functions
+void GameState::initKeybinds()
 {
+	this->keybinds.emplace("PRINT", this->supportedKeys->at("A"));
 
+}
+
+// Constructors/Destructors
+GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys)
+	: State(window, supportedKeys)
+{
+	this->initKeybinds();
 }
 
 GameState::~GameState()
@@ -13,26 +20,28 @@ GameState::~GameState()
 }
 
 
+// Functions
 void GameState::endState()
 {
 	std::cout << "Ending game state" << "\n";
 }
 
-// Functions
-void GameState::updateKeybinds(const float& dt)
+void GameState::updateInput(const float& dt)
 {
 	this->checkForQuit();
+
+	// Update player input
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("PRINT"))))
+		std::cout << "A pressed in a Game State" << "\n";
 }
 
 void GameState::update(const float& dt)
 {
-	this->updateKeybinds(dt);
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		std::cout << "A" << "\n";
+	this->updateInput(dt);
 }
 
 void GameState::render(sf::RenderTarget* target)
 {
-
+	if (!target)
+		target = this->window;
 }

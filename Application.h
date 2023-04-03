@@ -1,8 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "GameState.h"
-
+#include "MainMenuState.h"
 
 class Application
 {
@@ -16,8 +15,11 @@ private:
 
 	std::stack<State*> states;
 
+	std::map<std::string, int> supportedKeys;
+
 	// Initializer functions
 	void initWindow();
+	void initKeys();
 	void initStates();
 	
 public:
