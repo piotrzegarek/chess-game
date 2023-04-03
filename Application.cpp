@@ -6,7 +6,28 @@
 void Application::initWindow()
 {
 	/* Creates a SFML  window using options from windows.init file. */
-	this->window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Chess Game");
+
+	std::ifstream cfg("Config/window.ini");
+
+	std::string  title = "None";
+	sf::VideoMode window_bounds(800, 600);
+	unsigned framerate_limit = 60;
+	bool vertical_sync_enabled = false;
+
+
+	if (cfg.is_open())
+	{
+		std::getline(cfg, title);
+		cfg >> window_bounds.width >> window_bounds.height;
+		cfg >> framerate_limit;
+		cfg >> vertical_sync_enabled;
+	}
+
+	cfg.close();
+
+	this->window = new sf::RenderWindow(window_bounds, title);
+	this->window->setFramerateLimit(framerate_limit);
+	this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }
 
 
