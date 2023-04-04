@@ -41,7 +41,7 @@ void Application::initKeys()
 
 void Application::initStates()
 {
-	this->states.push(new MainMenuState(this->window, &this->supportedKeys));
+	this->states.push(new MainMenuState(this->window, &this->supportedKeys, &this->states));
 }
 
 

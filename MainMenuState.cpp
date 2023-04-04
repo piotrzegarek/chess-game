@@ -26,9 +26,10 @@ void MainMenuState::initButtons()
 }
 
 // Constructors/Destructors
-MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys)
-	: State(window,  supportedKeys)
+MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states)
+	: State(window,  supportedKeys, states)
 {
+	std::cout << "Started main menu state" << "\n";
 	this->initFonts();
 	this->initKeybinds();
 	this->initButtons();
@@ -64,9 +65,16 @@ void MainMenuState::updateInput(const float& dt)
 
 void MainMenuState::updateButtons()
 {
+	/* Updates all the buttons and handle their functions. */
 	for (auto& it : this->buttons)
 	{
 		it.second->update(this->mousePosView);
+	}
+
+	// Start new game
+	if (this->buttons["NEW_GAME_BTN"]->isPressed())
+	{
+		this->states->push(new GameState(this->window, this->supportedKeys, this->states));
 	}
 
 	// Quit the game
