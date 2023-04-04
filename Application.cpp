@@ -11,6 +11,7 @@ void Application::initWindow()
 
 	std::string  title = "None";
 	sf::VideoMode window_bounds(800, 600);
+	bool fullscreen = false;
 	unsigned framerate_limit = 60;
 	bool vertical_sync_enabled = false;
 
@@ -19,13 +20,19 @@ void Application::initWindow()
 	{
 		std::getline(cfg, title);
 		cfg >> window_bounds.width >> window_bounds.height;
+		cfg >> fullscreen;
 		cfg >> framerate_limit;
 		cfg >> vertical_sync_enabled;
 	}
 
 	cfg.close();
 
-	this->window = new sf::RenderWindow(window_bounds, title);
+	this->fullscreen = fullscreen;
+	if (this->fullscreen)
+		this->window = new sf::RenderWindow(window_bounds, title, sf::Style::Fullscreen);
+	else
+		this->window = new sf::RenderWindow(window_bounds, title, sf::Style::Titlebar | sf::Style::Close);
+
 	this->window->setFramerateLimit(framerate_limit);
 	this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }

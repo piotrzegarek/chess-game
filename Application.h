@@ -9,6 +9,7 @@ private:
 	// Variables
 	sf::RenderWindow *window;
 	sf::Event sfEvent;
+	bool fullscreen;
 
 	sf::Clock dtClock;
 	float dt;
