@@ -12,11 +12,12 @@ private:
     sf::RectangleShape background;
     sf::Font font;
 
-    Button* gamestate_btn;
+    std::map<std::string, Button*> buttons;
 
     // Functions
     void initFonts();
     void initKeybinds();
+    void initButtons();
 
 public:
     // Constructors/Destructors
@@ -27,7 +28,9 @@ public:
     void endState();
 
     void updateInput(const float& dt);
+    void updateButtons();
     void update(const float& dt);
+    void renderButtons(sf::RenderTarget* target = nullptr);
     void render(sf::RenderTarget* target = nullptr);
 };
 
