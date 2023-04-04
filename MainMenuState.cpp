@@ -39,7 +39,11 @@ void MainMenuState::updateInput(const float& dt)
 
 void MainMenuState::update(const float& dt)
 {
+	this->updateMousePositions();
 	this->updateInput(dt);
+
+	system("cls");
+	std::cout << this->mousePosView.x << " " << this->mousePosView.y << "\n";
 }
 
 void MainMenuState::render(sf::RenderTarget* target)

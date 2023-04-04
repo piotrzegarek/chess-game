@@ -19,8 +19,17 @@ const bool& State::getQuit() const
 
 void State::checkForQuit()
 {
+	/* Check if escape button is pressed. */
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
 		this->wantsEnd = true;
 	}
+}
+
+void State::updateMousePositions()
+{
+	/* Update mouse position variables */
+	this->mousePosScreen = sf::Mouse::getPosition();
+	this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+	this->mousePosView = this->window->mapPixelToCoords(sf::Mouse::getPosition(*this->window));
 }
