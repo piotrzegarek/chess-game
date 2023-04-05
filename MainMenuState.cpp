@@ -12,14 +12,6 @@ void MainMenuState::initBackground()
 	this->background.setTexture(&this->bgTexture);
 }
 
-void MainMenuState::initFonts()
-{
-	if (!this->font.loadFromFile("Fonts/main-2.ttf"))
-	{
-		throw("ERROR::MAINMENUSTATE::COULD NOT LOAD FONT");
-	}
-}
-
 void MainMenuState::initKeybinds()
 {
 	this->keybinds.emplace("PRINT", this->supportedKeys->at("A"));

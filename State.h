@@ -32,8 +32,14 @@ protected:
 
 	//Resources
 	std::vector<sf::Texture> textures;
+	sf::Texture bgTexture;
+	sf::RectangleShape background;
+	sf::Font font;
+
 	
 	// Initializer functions
+	void initFonts();
+	virtual void initBackground() = 0;
 	virtual void initKeybinds() = 0;
 
 public:

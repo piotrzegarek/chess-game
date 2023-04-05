@@ -7,12 +7,25 @@ void GameState::initKeybinds()
 
 }
 
+void GameState::initBackground()
+{
+	this->background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
+	if (!this->bgTexture.loadFromFile("Resources/Images/background.png"))
+	{
+		throw"ERROR::MAINMENUSTATE::FAILED_TO_GET_BACKGROUND_TEXTURE";
+	}
+
+	this->background.setTexture(&this->bgTexture);
+}
+
 // Constructors/Destructors
 GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states)
 	: State(window, supportedKeys, states)
 {
-	std::cout << "Started game state" << "\n";
+	this->initBackground();
+	this->initFonts();
 	this->initKeybinds();
+
 }
 
 GameState::~GameState()

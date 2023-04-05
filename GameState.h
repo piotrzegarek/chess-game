@@ -10,6 +10,7 @@ private:
 
     //Functions
     void initKeybinds();
+    void initBackground();
 
 public:
     // Constructors/Destructors
