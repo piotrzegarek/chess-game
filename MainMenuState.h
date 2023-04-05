@@ -12,6 +12,7 @@ private:
     sf::Texture bgTexture;
     sf::RectangleShape background;
     sf::Font font;
+    sf::Text titleText;
 
     std::map<std::string, Button*> buttons;
 
@@ -19,6 +20,7 @@ private:
     void initBackground();
     void initFonts();
     void initKeybinds();
+    void initTexts();
     void initButtons();
 
 public:

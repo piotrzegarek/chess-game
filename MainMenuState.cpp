@@ -25,13 +25,36 @@ void MainMenuState::initKeybinds()
 	this->keybinds.emplace("PRINT", this->supportedKeys->at("A"));
 }
 
+void MainMenuState::initTexts()
+{
+	this->titleText.setFont(this->font);
+	this->titleText.setString("Play Chess");
+	this->titleText.setFillColor(sf::Color::White);
+	this->titleText.setCharacterSize(86);
+
+	this->titleText.setPosition(
+		this->window->getSize().x / 2.f - this->titleText.getGlobalBounds().width / 2.f,
+		this->window->getSize().y / 8.f
+	);
+}
+
 void MainMenuState::initButtons()
 {
-	this->buttons["NEW_GAME_BTN"] = new Button(100, 100, 150, 50,
+	this->buttons["NEW_GAME_BTN"] = new Button(
+		this->window->getSize().x / 2.f - 260 / 2.f, this->window->getSize().y / 3.f,
+		260, 80,
 		&this->font, "New Game",
 		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
 
-	this->buttons["EXIT_BTN"] = new Button(200, 200, 150, 50,
+	this->buttons["OPTIONS_BTN"] = new Button(
+		this->window->getSize().x / 2.f - 260 / 2.f, this->window->getSize().y / 3.f + (80 + 20),
+		260, 80,
+		&this->font, "Options",
+		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+
+	this->buttons["EXIT_BTN"] = new Button(
+		this->window->getSize().x / 2.f - 260 / 2.f, this->window->getSize().y / 3.f + (2*80 + 40),
+		260, 80,
 		&this->font, "Exit",
 		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
 }
@@ -44,6 +67,7 @@ MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int
 	this->initBackground();
 	this->initFonts();
 	this->initKeybinds();
+	this->initTexts();
 	this->initButtons();
 }
 
@@ -87,6 +111,12 @@ void MainMenuState::updateButtons()
 	}
 
 	// Quit the game
+	if (this->buttons["OPTIONS_BTN"]->isPressed())
+	{
+		// Start options state
+	}
+
+	// Quit the game
 	if (this->buttons["EXIT_BTN"]->isPressed())
 	{
 		this->wantsEnd = true;
@@ -114,6 +144,7 @@ void MainMenuState::render(sf::RenderTarget* target)
 		target = this->window;
 
 	target->draw(this->background);
+	target->draw(this->titleText);
 
 	this->renderButtons(target);
 }
