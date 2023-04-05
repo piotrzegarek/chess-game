@@ -42,11 +42,12 @@ void GameState::endState()
 
 void GameState::updateInput(const float& dt)
 {
-	this->checkForQuit();
-
 	// Update player input
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("PRINT"))))
 		std::cout << "A pressed in a Game State" << "\n";
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		this->wantsEnd = true;
 }
 
 void GameState::update(const float& dt)

@@ -80,8 +80,6 @@ void MainMenuState::endState()
 
 void MainMenuState::updateInput(const float& dt)
 {
-	this->checkForQuit();
-
 	// Update player input
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("PRINT"))))
 		std::cout << "A pressed in a Main menu" << "\n";
@@ -105,7 +103,7 @@ void MainMenuState::updateButtons()
 	// Quit the game
 	if (this->buttons["OPTIONS_BTN"]->isPressed())
 	{
-		// Start options state
+		this->states->push(new OptionsState(this->window, this->supportedKeys, this->states));
 	}
 
 	// Quit the game

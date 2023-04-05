@@ -1,39 +1,27 @@
 #pragma once
 #include "State.h"
-class OptionsState :
-    public State
-{
-};
-
-#ifndef OPTIONSSTATE_H
-#define OPTIONSSTATE_H
-
-#include "GameState.h"
 #include "Button.h"
 
-class MainMenuState :
+
+class OptionsState :
     public State
 {
 private:
     // Variables
-    sf::Texture bgTexture;
-    sf::RectangleShape background;
-    sf::Font font;
     sf::Text titleText;
 
     std::map<std::string, Button*> buttons;
 
     // Functions
     void initBackground();
-    void initFonts();
     void initKeybinds();
     void initTexts();
     void initButtons();
 
 public:
     // Constructors/Destructors
-    MainMenuState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states);
-    virtual ~MainMenuState();
+    OptionsState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states);
+    virtual ~OptionsState();
 
     //Functions
     void endState();
@@ -45,4 +33,3 @@ public:
     void render(sf::RenderTarget* target = nullptr);
 };
 
-#endif // !OPTIONSSTATE_H
