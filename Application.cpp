@@ -1,8 +1,14 @@
 #include "Application.h"
 
-// Static functions
 
 // Initializer functions
+void Application::initVariables()
+{
+	this->window = nullptr;
+	this->fullscreen = false;
+	this->dt = 0.f;
+}
+
 void Application::initWindow()
 {
 	/* Creates a SFML window using options from windows.init file. */

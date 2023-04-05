@@ -19,6 +19,7 @@ private:
 	std::map<std::string, int> supportedKeys;
 
 	// Initializer functions
+	void initVariables();
 	void initWindow();
 	void initKeys();
 	void initStates();
