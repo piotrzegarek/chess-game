@@ -9,12 +9,14 @@ class MainMenuState :
 {
 private:
     // Variables
+    sf::Texture bgTexture;
     sf::RectangleShape background;
     sf::Font font;
 
     std::map<std::string, Button*> buttons;
 
     // Functions
+    void initBackground();
     void initFonts();
     void initKeybinds();
     void initButtons();

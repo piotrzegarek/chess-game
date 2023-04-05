@@ -1,6 +1,17 @@
 #include "MainMenuState.h"
 
-// Initialize functions
+// Initializer functions
+void MainMenuState::initBackground()
+{
+	this->background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
+	if (!this->bgTexture.loadFromFile("Resources/Images/background.png"))
+	{
+		throw"ERROR::MAINMENUSTATE::FAILED_TO_GET_BACKGROUND_TEXTURE";
+	}
+
+	this->background.setTexture(&this->bgTexture);
+}
+
 void MainMenuState::initFonts()
 {
 	if (!this->font.loadFromFile("Fonts/main-2.ttf"))
@@ -30,12 +41,10 @@ MainMenuState::MainMenuState(sf::RenderWindow* window, std::map<std::string, int
 	: State(window,  supportedKeys, states)
 {
 	std::cout << "Started main menu state" << "\n";
+	this->initBackground();
 	this->initFonts();
 	this->initKeybinds();
 	this->initButtons();
-
-	this->background.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
-	this->background.setFillColor(sf::Color::Magenta);
 }
 
 MainMenuState::~MainMenuState()
