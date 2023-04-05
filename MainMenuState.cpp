@@ -35,19 +35,19 @@ void MainMenuState::initButtons()
 	this->buttons["NEW_GAME_BTN"] = new Button(
 		this->window->getSize().x / 2.f - 260 / 2.f, this->window->getSize().y / 3.f,
 		260, 80,
-		&this->font, "New Game",
+		&this->font, "New Game", 24,
 		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
 
 	this->buttons["OPTIONS_BTN"] = new Button(
 		this->window->getSize().x / 2.f - 260 / 2.f, this->window->getSize().y / 3.f + (80 + 20),
 		260, 80,
-		&this->font, "Options",
+		&this->font, "Options", 24,
 		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
 
 	this->buttons["EXIT_BTN"] = new Button(
 		this->window->getSize().x / 2.f - 260 / 2.f, this->window->getSize().y / 3.f + (2*80 + 40),
 		260, 80,
-		&this->font, "Exit",
+		&this->font, "Exit", 24,
 		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
 }
 
@@ -97,12 +97,14 @@ void MainMenuState::updateButtons()
 	// Start new game
 	if (this->buttons["NEW_GAME_BTN"]->isPressed())
 	{
+		std::cout << "Creating game state" << "\n";
 		this->states->push(new GameState(this->window, this->supportedKeys, this->states));
 	}
 
 	// Quit the game
 	if (this->buttons["OPTIONS_BTN"]->isPressed())
 	{
+		std::cout << "Creating options state" << "\n";
 		this->states->push(new OptionsState(this->window, this->supportedKeys, this->states));
 	}
 

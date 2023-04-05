@@ -31,7 +31,7 @@ private:
 public:
 	// Constructors/Destructors
 	Button(float x, float y, float width, float height,
-		sf::Font* font, std::string text,
+		sf::Font* font, std::string text, int fontSize,
 		sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor);
 	~Button();
 

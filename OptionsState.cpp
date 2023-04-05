@@ -32,7 +32,18 @@ void OptionsState::initTexts()
 
 void OptionsState::initButtons()
 {
-	//
+	this->buttons["BACK_BTN"] = new Button(
+		this->window->getSize().x / 10.f , this->window->getSize().y - this->window->getSize().y / 6.f,
+		120, 50,
+		&this->font, "Back", 20,
+		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+
+	this->buttons["SAVE_BTN"] = new Button(
+		this->window->getSize().x - (this->window->getSize().x / 10.f + 120), this->window->getSize().y - this->window->getSize().y / 6.f,
+		120, 50,
+		&this->font, "Save", 20,
+		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+
 }
 
 // Constructors/Destructors
@@ -58,7 +69,7 @@ OptionsState::~OptionsState()
 // Functions
 void OptionsState::endState()
 {
-	std::cout << "Ending main menu state" << "\n";
+	std::cout << "Ending options state" << "\n";
 }
 
 void OptionsState::updateInput(const float& dt)
@@ -80,6 +91,11 @@ void OptionsState::updateButtons()
 		it.second->update(this->mousePosView);
 	}
 
+	// Quit options menu
+	if (this->buttons["BACK_BTN"]->isPressed())
+	{
+		this->wantsEnd = true;
+	}
 }
 
 void OptionsState::update(const float& dt)

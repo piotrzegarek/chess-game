@@ -2,7 +2,7 @@
 
 // Constructors/Destructors
 Button::Button(float x, float y, float width, float height,
-	sf::Font* font, std::string text,
+	sf::Font* font, std::string text, int fontSize,
 	sf::Color idleColor, sf::Color hoverColor, sf::Color activeColor)
 {
 	this->buttonState = BTN_IDLE;
@@ -10,11 +10,12 @@ Button::Button(float x, float y, float width, float height,
 	this->shape.setPosition(sf::Vector2f(x, y));
 	this->shape.setSize(sf::Vector2f(width, height));
 
+	int font_size = fontSize;
 	this->font = font;
 	this->text.setFont(*this->font);
 	this->text.setString(text);
 	this->text.setFillColor(sf::Color::White);
-	this->text.setCharacterSize(24);
+	this->text.setCharacterSize(font_size);
 
 	this->text.setPosition(
 		this->shape.getPosition().x + (this->shape.getGlobalBounds().width / 2.f) - this->text.getGlobalBounds().width / 2.f,
