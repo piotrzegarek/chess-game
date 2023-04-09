@@ -8,6 +8,7 @@ class GameState :
 {
 private:
 
+
     //Functions
     void initKeybinds();
     void initBackground();
