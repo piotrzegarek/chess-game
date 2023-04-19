@@ -2,16 +2,18 @@
 #define GAMESTATE_H
 
 #include "State.h"
+#include "Board.h"
 
 class GameState :
     public State
 {
 private:
-
+    Board* board;
 
     //Functions
-    void initKeybinds();
     void initBackground();
+    void initKeybinds();
+    void initBoard();
 
 public:
     // Constructors/Destructors
@@ -20,8 +22,11 @@ public:
 
     //Functions
     void endState();
+
     void updateInput(const float& dt);
+    void updateBoard();
     void update(const float& dt);
+    void renderBoard(sf::RenderTarget* target = nullptr);
     void render(sf::RenderTarget* target = nullptr);
 };
 
