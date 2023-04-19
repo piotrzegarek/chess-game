@@ -26,6 +26,12 @@ void GameState::initBoard()
 	);
 }
 
+void GameState::initKeyTime()
+{
+	this->keyTimeMax = 0.3f;
+	this->keyTimer.restart();
+}
+
 // Constructors/Destructors
 GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states)
 	: State(window, supportedKeys, states)
@@ -34,12 +40,24 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suppo
 	this->initFonts();
 	this->initKeybinds();
 	this->initBoard();
+	this->initKeyTime();
 }
 
 GameState::~GameState()
 {
 	std::cout << "Deleting board object" << "\n";
 	delete this->board;
+}
+
+const bool GameState::getKeyTime()
+{
+	if (this->keyTimer.getElapsedTime().asSeconds() >= this->keyTimeMax)
+	{
+		this->keyTimer.restart();
+		return true;
+	}
+
+	return false;
 }
 
 
@@ -52,10 +70,10 @@ void GameState::endState()
 void GameState::updateInput(const float& dt)
 {
 	// Update player input
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("PRINT"))))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("PRINT"))) && this->getKeytime())
 		std::cout << "A pressed in a Game State" << "\n";
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && this->getKeytime())
 		this->wantsEnd = true;
 }
 
@@ -67,6 +85,7 @@ void GameState::updateBoard()
 void GameState::update(const float& dt)
 {
 	this->updateMousePositions();
+	this->updateKeytime(dt);
 	this->updateInput(dt);
 	this->updateBoard();
 }

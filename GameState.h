@@ -10,15 +10,22 @@ class GameState :
 private:
     Board* board;
 
+    sf::Clock keyTimer;
+    float keyTimeMax;
+
     //Functions
     void initBackground();
     void initKeybinds();
     void initBoard();
+    void initKeyTime();
 
 public:
     // Constructors/Destructors
     GameState(sf::RenderWindow* window, std::map<std::string, int>* supportedKeys, std::stack<State*>* states);
     virtual ~GameState();
+
+    //Accessors
+    const bool getKeyTime();
 
     //Functions
     void endState();

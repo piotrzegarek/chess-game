@@ -25,6 +25,8 @@ protected:
 	std::map<std::string, int>* supportedKeys;
 	std::map<std::string, int> keybinds;
 	bool wantsEnd;
+	float keytime;
+	float keytimeMax;
 
 	sf::Vector2i mousePosScreen;
 	sf::Vector2i mousePosWindow;
@@ -49,9 +51,11 @@ public:
 
 	//Functions
 	const bool& getQuit() const;
+	const bool getKeytime();
 
 	virtual void endState() = 0;
 	virtual void updateMousePositions();
+	virtual void updateKeytime(const float& dt);
 	virtual void updateInput(const float& dt) = 0;
 	virtual void update(const float& dt) = 0;
 	virtual void render(sf::RenderTarget* target = nullptr) = 0;

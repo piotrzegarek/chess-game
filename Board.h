@@ -10,6 +10,7 @@ private:
     sf::Sprite boardWindow;
     sf::RenderTexture boardTexture;
     sf::Vector2f mousePosBoard;
+    std::map<std::string, int> activeSquare = { { "x", 9}, {"y", 9}};
 
     int square_size = 64;
     std::string boardKeys[8][8] = {
@@ -26,8 +27,14 @@ private:
 
     sf::Color white_square_color = sf::Color(238, 238, 211);
     sf::Color black_square_color = sf::Color(118, 150, 86);
+    sf::Color white_highlight_square_color = sf::Color(232, 232, 151);
+    sf::Color black_highlight_square_color = sf::Color(142, 212, 72);
+
+    sf::Clock keyTimer;
+    float keyTimeMax;
 
     //Functions
+    void initKeyTime();
     void initBackground();
 
 public:
@@ -35,11 +42,18 @@ public:
     Board(float x, float y);
     ~Board();
 
+    //Accessors
+    const bool getKeyTime();
+
     // Functions
     void update(const sf::Vector2f mousePos);
     void updateMousePos(const sf::Vector2f mousePos);
     void updateBoardSquare();
     void render(sf::RenderTarget* target, float window_x, float window_y);
+
+    void renderSquare(int row, int col, bool highlight);
+    std::string getActiveSquare();
+    void highlightSquare(int row, int col);
 };
 
 #endif GAMESTATE_H
