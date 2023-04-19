@@ -7,7 +7,9 @@ class Board
 {
 private:
     // Variables
-    sf::RenderTexture boardWindow;
+    sf::Sprite boardWindow;
+    sf::RenderTexture boardTexture;
+    sf::Vector2f mousePosBoard;
     int square_size = 64;
 
     sf::Color white_square_color = sf::Color(238, 238, 211);
@@ -23,6 +25,7 @@ public:
 
     // Functions
     void update(const sf::Vector2f mousePos);
+    void updateMousePos(const sf::Vector2f mousePos);
     void render(sf::RenderTarget* target, float window_x, float window_y);
 };
 

@@ -5,7 +5,7 @@
 void Board::initBackground()
 {
 	// Render 8x8 squares
-	boardWindow.create(square_size*8, square_size*8);
+	boardTexture.create(square_size*8, square_size*8);
 	for (int i = 0; i < 8; i++) {
 		for (int j = 0; j < 8; j++)
 		{
@@ -17,10 +17,11 @@ void Board::initBackground()
 				static_cast<float>(i) * square_size
 			);
 
-			this->boardWindow.draw(square);
-			this->boardWindow.display();
+			this->boardTexture.draw(square);
+			this->boardTexture.display();
 		}
 	}
+	boardTexture.setSmooth(true);
 }
 
 // Constructors/Destructors
@@ -40,13 +41,19 @@ Board::~Board()
 
 void Board::update(const sf::Vector2f mousePos)
 {
+	this->updateMousePos(mousePos);
+}
 
+void Board::updateMousePos(const sf::Vector2f mousePos)
+{
+	sf::Vector2f sprite_position = this->boardWindow.getPosition();
+	this->mousePosBoard.x = mousePos.x - sprite_position.x;
+	this->mousePosBoard.y = mousePos.y - sprite_position.y;
 }
 
 void Board::render(sf::RenderTarget* target, float window_x, float window_y)
 {
-	sf::Sprite board;
-	board.setPosition(window_x / 2.f, 200);
-	board.setTexture(this->boardWindow.getTexture());
-	target->draw(board);
+	this->boardWindow.setPosition((window_x / 2.f) - 4 * square_size, window_y / 6.f);
+	this->boardWindow.setTexture(this->boardTexture.getTexture());
+	target->draw(this->boardWindow);
 }

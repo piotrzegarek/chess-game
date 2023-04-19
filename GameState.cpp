@@ -68,6 +68,7 @@ void GameState::update(const float& dt)
 {
 	this->updateMousePositions();
 	this->updateInput(dt);
+	this->updateBoard();
 }
 
 void GameState::renderBoard(sf::RenderTarget* target)
