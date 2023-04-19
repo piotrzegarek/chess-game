@@ -1,7 +1,10 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include "Memory.h"
 #include "Button.h"
+#include "Figure.h"
+#include "FigureFactory.h"
 
 class Board
 {
@@ -24,6 +27,7 @@ private:
         {"a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"}
     };
     std::map<std::string, sf::Vector2f> boardIndexes;
+    std::map<std::string, std::unique_ptr<Figure>> figures;
 
     sf::Color white_square_color = sf::Color(238, 238, 211);
     sf::Color black_square_color = sf::Color(118, 150, 86);
@@ -36,10 +40,11 @@ private:
     //Functions
     void initKeyTime();
     void initBackground();
+    void initFigures();
 
 public:
     // Constructors/Destructors
-    Board(float x, float y);
+    Board();
     ~Board();
 
     //Accessors

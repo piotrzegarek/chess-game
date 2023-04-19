@@ -32,6 +32,7 @@ void OptionsState::initTexts()
 
 void OptionsState::initButtons()
 {
+	// TO-DO: zmieniæ na nullptr
 	this->buttons["BACK_BTN"] = new Button(
 		this->window->getSize().x / 10.f , this->window->getSize().y - this->window->getSize().y / 6.f,
 		120, 50,

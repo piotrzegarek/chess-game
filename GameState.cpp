@@ -21,9 +21,7 @@ void GameState::initKeybinds()
 
 void GameState::initBoard()
 {
-	this->board = new Board(
-		this->window->getSize().x, this->window->getSize().y
-	);
+	this->board = new Board();
 }
 
 void GameState::initKeyTime()

@@ -27,13 +27,30 @@ void Board::initBackground()
 	boardTexture.setSmooth(true);
 }
 
+void Board::initFigures()
+{
+	std::map<std::string, std::pair<std::string, std::string>> start_placement = {
+		{"a1", {"white", "rook"}}, {"b1", {"white", "knight"}}, {"c1", {"white", "bishop"}}, {"d1", {"white", "queen"}},
+	    //{"e1", "white_king"}, {"f1", "white_bishop"}, {"g1", "white_knight"}, {"h1", "white_rook"},
+	};
+	FigureFactory factory;
+
+	auto it = start_placement.begin();
+	for (it = start_placement.begin(); it != start_placement.end(); ++it)
+	{
+		std::unique_ptr<Figure> figure = std::move(factory.createFigure(it->first, it->second.first, it->second.second));
+		this->figures.emplace(std::make_pair(it->first, std::move(figure)));
+	}
+}
+
 // Constructors/Destructors
 
-Board::Board(float x, float y)
+Board::Board()
 {
 	std::cout << "Creating board object" << "\n";
 	this->initKeyTime();
 	this->initBackground();
+	this->initFigures();
 }
 
 Board::~Board()
@@ -73,7 +90,6 @@ void Board::updateBoardSquare()
 		this->mousePosBoard.x >= 0 && this->mousePosBoard.x <= this->square_size * 8 &&
 		this->mousePosBoard.y >= 0 && this->mousePosBoard.y <= this->square_size * 8)
 	{
-		std::cout << "Key pressed" << "\n";
 		std::string key = this->getActiveSquare();
 
 	}
@@ -118,6 +134,7 @@ std::string Board::getActiveSquare()
 	int row = this->mousePosBoard.y / this->square_size;
 
 	std::string key = this->boardKeys[row][col];
+	std::cout << key << "\n";
 	this->highlightSquare(row, col);
 
 	return key;
