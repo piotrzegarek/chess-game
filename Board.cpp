@@ -6,17 +6,23 @@ void Board::initBackground()
 {
 	// Render 8x8 squares
 	boardTexture.create(square_size*8, square_size*8);
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++)
+	for (int row = 0; row < 8; row++) {
+		for (int col = 0; col < 8; col++)
 		{
 			sf::RectangleShape square;
 			square.setSize(sf::Vector2f(square_size, square_size));
-			square.setFillColor((i + j) % 2 == 0 ? white_square_color : black_square_color);
+			square.setFillColor((row + col) % 2 == 0 ? white_square_color : black_square_color);
 			square.setPosition(
-				static_cast<float>(j) * square_size,
-				static_cast<float>(i) * square_size
+				static_cast<float>(col) * square_size,
+				static_cast<float>(row) * square_size
 			);
 
+			std::string key = this->boardKeys[row][col];
+			sf::Vector2f centerOfSquare(
+				(static_cast<float>(col) * square_size) + (square_size / 2),
+				(static_cast<float>(row) * square_size) + (square_size / 2)
+			);
+			this->boardIndexes.insert(std::map<std::string, sf::Vector2f>::value_type(key, centerOfSquare));
 			this->boardTexture.draw(square);
 			this->boardTexture.display();
 		}
@@ -42,6 +48,7 @@ Board::~Board()
 void Board::update(const sf::Vector2f mousePos)
 {
 	this->updateMousePos(mousePos);
+	this->updateBoardSquare();
 }
 
 void Board::updateMousePos(const sf::Vector2f mousePos)
@@ -49,6 +56,16 @@ void Board::updateMousePos(const sf::Vector2f mousePos)
 	sf::Vector2f sprite_position = this->boardWindow.getPosition();
 	this->mousePosBoard.x = mousePos.x - sprite_position.x;
 	this->mousePosBoard.y = mousePos.y - sprite_position.y;
+}
+
+void Board::updateBoardSquare()
+{
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && 
+		this->mousePosBoard.x >= 0 && this->mousePosBoard.x <= this->square_size * 8 &&
+		this->mousePosBoard.y >= 0 && this->mousePosBoard.y <= this->square_size * 8)
+	{
+		std::cout << "Clicked mouse" << "\n";
+	}
 }
 
 void Board::render(sf::RenderTarget* target, float window_x, float window_y)
