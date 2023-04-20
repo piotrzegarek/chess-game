@@ -17,7 +17,7 @@ std::unique_ptr<Figure> FigureFactory::createFigure(std::string position, std::s
 	}
 	else if (type == "queen")
 	{
-		return std::move(std::make_unique<Knight>());
+		return std::move(std::make_unique<Queen>(color, position));
 	}
 	else if (type == "king")
 	{
