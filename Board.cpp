@@ -34,8 +34,10 @@ void Board::initFigures()
 	//	{"e1", {"white", "king"}}, {"f1", {"white", "bishop"}}, {"g1", {"white","knight"}}, {"h1", {"white","rook"}},
 	//};
 	std::map<std::string, std::pair<std::string, std::string>> start_placement = { 
+		{"a1", {"white", "rook"}}, {"h1", {"white", "rook"}}, {"a8", {"black", "rook"}}, {"a8", {"black", "rook"}},
 		{"b1", {"white", "knight"}}, {"g1", {"white", "knight"}}, {"b8", {"black", "knight"}}, {"g8", {"black", "knight"}},
-		{"c1", {"white", "bishop"}}, {"f1", {"white", "bishop"}}, {"c8", {"black", "bishop"}}, {"f8", {"black", "bishop"}}
+		{"c1", {"white", "bishop"}}, {"f1", {"white", "bishop"}}, {"c8", {"black", "bishop"}}, {"f8", {"black", "bishop"}},
+		{"e1", {"white", "king"}}, {"e8", {"black", "king"}}, 
 	};
 	FigureFactory factory;
 

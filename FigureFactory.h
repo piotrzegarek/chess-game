@@ -4,6 +4,8 @@
 #include "Figure.h"
 #include "Knight.h"
 #include "Bishop.h"
+#include "Rook.h"
+#include "King.h"
 
 class FigureFactory
 {

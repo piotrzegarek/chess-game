@@ -5,7 +5,7 @@ std::unique_ptr<Figure> FigureFactory::createFigure(std::string position, std::s
 {
 	if (type == "rook")
 	{
-		return std::move(std::make_unique<Knight>());
+		return std::move(std::make_unique<Rook>(color, position));
 	}
 	else if (type == "knight")
 	{
@@ -21,7 +21,7 @@ std::unique_ptr<Figure> FigureFactory::createFigure(std::string position, std::s
 	}
 	else if (type == "king")
 	{
-		return std::move(std::make_unique<Knight>());
+		return std::move(std::make_unique<King>(color, position));
 	}
 	else
 	{
