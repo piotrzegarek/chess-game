@@ -9,7 +9,7 @@ private:
 
 public:
     King();
-    King(std::string color, std::string position);
+    King(std::string color);
     ~King();
 
     // Initializer functions

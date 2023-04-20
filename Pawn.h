@@ -9,7 +9,7 @@ private:
 
 public:
     Pawn();
-    Pawn(std::string color, std::string position);
+    Pawn(std::string color);
     ~Pawn();
 
     // Initializer functions

@@ -5,8 +5,8 @@ Bishop::Bishop()
 
 }
 
-Bishop::Bishop(std::string color, std::string position)
-	: Figure(color, position)
+Bishop::Bishop(std::string color)
+	: Figure(color)
 {
 	this->initTexture();
 }

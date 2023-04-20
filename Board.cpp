@@ -40,18 +40,18 @@ void Board::initFigures()
 	auto it = start_placement.begin();
 	for (it = start_placement.begin(); it != start_placement.end(); ++it)
 	{
-		std::unique_ptr<Figure> figure = std::move(factory.createFigure(it->first, it->second.first, it->second.second));
+		std::unique_ptr<Figure> figure = std::move(factory.createFigure(it->second.first, it->second.second));
 		this->figures.emplace(std::make_pair(it->first, std::move(figure)));
 	}
 	for (char a = 'a'; a < 'a' + 8; ++a)
 	{
 		std::string char_position(1, a);
 		std::string white_position = char_position + "2";
-		std::unique_ptr<Figure> white_pawn = std::move(factory.createFigure(white_position, "white", "pawn"));
+		std::unique_ptr<Figure> white_pawn = std::move(factory.createFigure("white", "pawn"));
 		this->figures.emplace(std::make_pair(white_position, std::move(white_pawn)));
 		
 		std::string black_position = char_position + "7";
-		std::unique_ptr<Figure> black_pawn = std::move(factory.createFigure(black_position, "black", "pawn"));
+		std::unique_ptr<Figure> black_pawn = std::move(factory.createFigure("black", "pawn"));
 		this->figures.emplace(std::make_pair(black_position, std::move(black_pawn)));
 	}
 }
@@ -176,4 +176,8 @@ void Board::highlightSquare(int row, int col)
 	this->activeSquare["y"] = row;
 
 	this->renderSquare(row, col, true);
+
+	// Deleting figure
+	std::string key = this->boardKeys[row][col];
+	this->figures.erase(key);
 }

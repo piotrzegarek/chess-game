@@ -2,10 +2,9 @@
 
 // Constructors/Destructors
 
-Figure::Figure(std::string color, std::string position)
+Figure::Figure(std::string color)
 {
 	this->color = color;
-	this->position = position;
 }
 
 Figure::~Figure()

@@ -5,8 +5,8 @@ Knight::Knight()
 
 }
 
-Knight::Knight(std::string color, std::string position)
-	: Figure(color, position)
+Knight::Knight(std::string color)
+	: Figure(color)
 {
 	this->initTexture();
 }

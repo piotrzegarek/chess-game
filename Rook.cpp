@@ -5,8 +5,8 @@ Rook::Rook()
 
 }
 
-Rook::Rook(std::string color, std::string position)
-	: Figure(color, position)
+Rook::Rook(std::string color)
+	: Figure(color)
 {
 	this->initTexture();
 }

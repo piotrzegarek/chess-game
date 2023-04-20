@@ -9,7 +9,7 @@ private:
 
 public:
     Queen();
-    Queen(std::string color, std::string position);
+    Queen(std::string color);
     ~Queen();
 
     // Initializer functions

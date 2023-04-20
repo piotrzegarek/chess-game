@@ -12,6 +12,6 @@
 class FigureFactory
 {
 public:
-	std::unique_ptr<Figure> createFigure(std::string position, std::string color, std::string type);
+	std::unique_ptr<Figure> createFigure(std::string color, std::string type);
 };
 

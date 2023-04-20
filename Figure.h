@@ -8,12 +8,11 @@ protected:
 	int figure_size = 48;
 	int square_size = 64;
 	std::string color;
-	std::string position; // poddana w¹tpliwoœci czy powinna tu byæ
 	sf::Sprite figure;
 	sf::Texture figureTexture;
 
 public:
-	Figure(std::string color="white", std::string position="a1");
+	Figure(std::string color="white");
 	virtual ~Figure();
 
 	// Initializer functions

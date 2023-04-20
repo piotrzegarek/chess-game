@@ -9,7 +9,7 @@ private:
 
 public:
     Bishop();
-    Bishop(std::string color, std::string position);
+    Bishop(std::string color);
     ~Bishop();
 
     // Initializer functions

@@ -9,7 +9,7 @@ private:
 
 public:
     Knight();
-    Knight(std::string color, std::string position);
+    Knight(std::string color);
     ~Knight();
 
     // Initializer functions

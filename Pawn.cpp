@@ -5,8 +5,8 @@ Pawn::Pawn()
 
 }
 
-Pawn::Pawn(std::string color, std::string position)
-	: Figure(color, position)
+Pawn::Pawn(std::string color)
+	: Figure(color)
 {
 	this->initTexture();
 }

@@ -5,8 +5,8 @@ King::King()
 
 }
 
-King::King(std::string color, std::string position)
-	: Figure(color, position)
+King::King(std::string color)
+	: Figure(color)
 {
 	this->initTexture();
 }

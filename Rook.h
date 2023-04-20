@@ -9,7 +9,7 @@ private:
 
 public:
     Rook();
-    Rook(std::string color, std::string position);
+    Rook(std::string color);
     ~Rook();
 
     // Initializer functions

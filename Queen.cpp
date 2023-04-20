@@ -5,8 +5,8 @@ Queen::Queen()
 
 }
 
-Queen::Queen(std::string color, std::string position)
-	: Figure(color, position)
+Queen::Queen(std::string color)
+	: Figure(color)
 {
 	this->initTexture();
 }
