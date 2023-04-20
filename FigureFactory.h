@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Memory.h"
-#include "Knight.h"
 #include "Figure.h"
+#include "Knight.h"
 
 class FigureFactory
 {

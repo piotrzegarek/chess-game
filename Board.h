@@ -54,9 +54,11 @@ public:
     void update(const sf::Vector2f mousePos);
     void updateMousePos(const sf::Vector2f mousePos);
     void updateBoardSquare();
-    void render(sf::RenderTarget* target, float window_x, float window_y);
 
+    void render(sf::RenderTarget* target, float window_x, float window_y);
     void renderSquare(int row, int col, bool highlight);
+    void renderFigures();
+
     std::string getActiveSquare();
     void highlightSquare(int row, int col);
 };

@@ -18,8 +18,8 @@ void Board::initBackground()
 			this->renderSquare(row, col, false);
 			std::string key = this->boardKeys[row][col];
 			sf::Vector2f centerOfSquare(
-				(static_cast<float>(col) * square_size) + (square_size / 2),
-				(static_cast<float>(row) * square_size) + (square_size / 2)
+				(static_cast<float>(col) * square_size),
+				(static_cast<float>(row) * square_size)
 			);
 			this->boardIndexes.insert(std::map<std::string, sf::Vector2f>::value_type(key, centerOfSquare));
 		}
@@ -29,10 +29,11 @@ void Board::initBackground()
 
 void Board::initFigures()
 {
-	std::map<std::string, std::pair<std::string, std::string>> start_placement = {
-		{"a1", {"white", "rook"}}, {"b1", {"white", "knight"}}, {"c1", {"white", "bishop"}}, {"d1", {"white", "queen"}},
-	    //{"e1", "white_king"}, {"f1", "white_bishop"}, {"g1", "white_knight"}, {"h1", "white_rook"},
-	};
+	//std::map<std::string, std::pair<std::string, std::string>> start_placement = {
+	//	{"a1", {"white", "rook"}}, {"b1", {"white", "knight"}}, {"c1", {"white", "bishop"}}, {"d1", {"white", "queen"}},
+	//	{"e1", {"white", "king"}}, {"f1", {"white", "bishop"}}, {"g1", {"white","knight"}}, {"h1", {"white","rook"}},
+	//};
+	std::map<std::string, std::pair<std::string, std::string>> start_placement = { {"a8", {"white", "knight"}} };
 	FigureFactory factory;
 
 	auto it = start_placement.begin();
@@ -106,6 +107,19 @@ void Board::render(sf::RenderTarget* target, float window_x, float window_y)
 	this->boardWindow.setPosition((window_x / 2.f) - 4 * square_size, window_y / 6.f);
 	this->boardWindow.setTexture(this->boardTexture.getTexture());
 	target->draw(this->boardWindow);
+
+	this->renderFigures();
+}
+
+void Board::renderFigures()
+{
+	auto it = this->figures.begin();
+	for (it = this->figures.begin(); it != this->figures.end(); ++it)
+	{
+		std::string alphPosition = it->first;
+		sf::Vector2f indexPosition = this->boardIndexes[alphPosition];
+		it->second->render(&this->boardTexture, this->boardIndexes[alphPosition]);
+	}
 }
 
 void Board::renderSquare(int row, int col, bool highlight)
@@ -134,7 +148,7 @@ std::string Board::getActiveSquare()
 	int row = this->mousePosBoard.y / this->square_size;
 
 	std::string key = this->boardKeys[row][col];
-	std::cout << key << "\n";
+	std::cout << key << " " << col << " " << row <<"\n";
 	this->highlightSquare(row, col);
 
 	return key;
