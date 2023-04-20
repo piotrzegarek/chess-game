@@ -3,6 +3,7 @@
 #include "Memory.h"
 #include "Figure.h"
 #include "Knight.h"
+#include "Bishop.h"
 
 class FigureFactory
 {

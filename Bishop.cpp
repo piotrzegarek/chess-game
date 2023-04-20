@@ -1,25 +1,25 @@
-#include "Knight.h"
+#include "Bishop.h"
 
-Knight::Knight()
+Bishop::Bishop()
 {
 
 }
 
-Knight::Knight(std::string color, std::string position)
+Bishop::Bishop(std::string color, std::string position)
 	: Figure(color, position)
 {
 	this->initTexture();
 }
 
-Knight::~Knight()
+Bishop::~Bishop()
 {
 
 }
 
-void Knight::initTexture()
+void Bishop::initTexture()
 {
 	// Load figure texture into sprite object variable.
-	std::string image_path = (this->color == "white") ? "w_knight.png" : "b_knight.png";
+	std::string image_path = (this->color == "white") ? "w_bishop.png" : "b_bishop.png";
 	if (!this->figureTexture.loadFromFile("Resources/Figures/" + image_path))
 	{
 		throw"ERROR::MAINMENUSTATE::FAILED_TO_GET_BACKGROUND_TEXTURE";
@@ -28,14 +28,14 @@ void Knight::initTexture()
 	this->figure.setTexture(this->figureTexture);
 }
 
-void Knight::move()
+void Bishop::move()
 {
 }
 
-void Knight::remove()
+void Bishop::remove()
 {
 }
 
-void Knight::availableMoves()
+void Bishop::availableMoves()
 {
 }

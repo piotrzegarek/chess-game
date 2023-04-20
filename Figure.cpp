@@ -18,8 +18,10 @@ void Figure::render(sf::RenderTexture* target, sf::Vector2f indexPosition)
 		this->figure_size / this->figure.getLocalBounds().width,
 		this->figure_size / this->figure.getLocalBounds().height
 	);
-	std::cout << indexPosition.x << " " << indexPosition.y << "\n";
-	this->figure.setPosition(indexPosition);
+	this->figure.setPosition(
+		indexPosition.x + ((this->square_size - this->figure_size) / 2),
+		indexPosition.y + ((this->square_size - this->figure_size) / 2)
+	);
 	target->draw(this->figure);
 }
 

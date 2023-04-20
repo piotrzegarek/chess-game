@@ -5,7 +5,7 @@
 class Figure
 {
 protected:
-	int figure_size = 64;
+	int figure_size = 48;
 	int square_size = 64;
 	std::string color;
 	std::string position; // poddana w¹tpliwoœci czy powinna tu byæ

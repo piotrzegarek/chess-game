@@ -9,11 +9,11 @@ std::unique_ptr<Figure> FigureFactory::createFigure(std::string position, std::s
 	}
 	else if (type == "knight")
 	{
-		return std::move(std::make_unique<Knight>(position, color));
+		return std::move(std::make_unique<Knight>(color, position));
 	}
 	else if (type == "bishop")
 	{
-		return std::move(std::make_unique<Knight>());
+		return std::move(std::make_unique<Bishop>(color, position));
 	}
 	else if (type == "queen")
 	{
