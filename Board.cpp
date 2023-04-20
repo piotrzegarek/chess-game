@@ -33,7 +33,7 @@ void Board::initFigures()
 		{"a1", {"white", "rook"}}, {"h1", {"white", "rook"}}, {"a8", {"black", "rook"}}, {"h8", {"black", "rook"}},
 		{"b1", {"white", "knight"}}, {"g1", {"white", "knight"}}, {"b8", {"black", "knight"}}, {"g8", {"black", "knight"}},
 		{"c1", {"white", "bishop"}}, {"f1", {"white", "bishop"}}, {"c8", {"black", "bishop"}}, {"f8", {"black", "bishop"}},
-		{"e1", {"white", "king"}}, {"e8", {"black", "king"}}, {"d1", {"white", "queen"}}, {"d8", {"black", "queen"}}
+		{"e1", {"white", "king"}}, {"e8", {"black", "king"}}, {"d1", {"white", "queen"}}, {"d8", {"black", "queen"}},
 	};
 	FigureFactory factory;
 
@@ -42,6 +42,17 @@ void Board::initFigures()
 	{
 		std::unique_ptr<Figure> figure = std::move(factory.createFigure(it->first, it->second.first, it->second.second));
 		this->figures.emplace(std::make_pair(it->first, std::move(figure)));
+	}
+	for (char a = 'a'; a < 'a' + 8; ++a)
+	{
+		std::string char_position(1, a);
+		std::string white_position = char_position + "2";
+		std::unique_ptr<Figure> white_pawn = std::move(factory.createFigure(white_position, "white", "pawn"));
+		this->figures.emplace(std::make_pair(white_position, std::move(white_pawn)));
+		
+		std::string black_position = char_position + "7";
+		std::unique_ptr<Figure> black_pawn = std::move(factory.createFigure(black_position, "black", "pawn"));
+		this->figures.emplace(std::make_pair(black_position, std::move(black_pawn)));
 	}
 }
 

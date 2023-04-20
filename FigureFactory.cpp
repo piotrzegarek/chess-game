@@ -25,7 +25,7 @@ std::unique_ptr<Figure> FigureFactory::createFigure(std::string position, std::s
 	}
 	else
 	{
-		return std::move(std::make_unique<Knight>());
+		return std::move(std::make_unique<Pawn>(color, position));
 	}
 
 

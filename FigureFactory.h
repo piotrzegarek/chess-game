@@ -7,6 +7,7 @@
 #include "Rook.h"
 #include "King.h"
 #include "Queen.h"
+#include "Pawn.h"
 
 class FigureFactory
 {
