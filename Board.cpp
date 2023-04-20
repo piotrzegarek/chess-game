@@ -123,16 +123,6 @@ void Board::render(sf::RenderTarget* target, float window_x, float window_y)
 	this->renderFigures();
 }
 
-void Board::renderFigures()
-{
-	auto it = this->figures.begin();
-	for (it = this->figures.begin(); it != this->figures.end(); ++it)
-	{
-		std::string alphPosition = it->first;
-		sf::Vector2f indexPosition = this->boardIndexes[alphPosition];
-		it->second->render(&this->boardTexture, this->boardIndexes[alphPosition]);
-	}
-}
 
 void Board::renderSquare(int row, int col, bool highlight)
 {
@@ -162,6 +152,7 @@ std::string Board::getActiveSquare()
 	std::string key = this->boardKeys[row][col];
 	std::cout << key << " " << col << " " << row <<"\n";
 	this->highlightSquare(row, col);
+	this->removeFigure(key);
 
 	return key;
 }
@@ -176,8 +167,21 @@ void Board::highlightSquare(int row, int col)
 	this->activeSquare["y"] = row;
 
 	this->renderSquare(row, col, true);
+}
 
-	// Deleting figure
-	std::string key = this->boardKeys[row][col];
+void Board::renderFigures()
+{
+	auto it = this->figures.begin();
+	for (it = this->figures.begin(); it != this->figures.end(); ++it)
+	{
+		std::string alphPosition = it->first;
+		sf::Vector2f indexPosition = this->boardIndexes[alphPosition];
+		it->second->render(&this->boardTexture, this->boardIndexes[alphPosition]);
+	}
+}
+
+void Board::removeFigure(std::string key)
+{
+	// Deleting figure from board map and stop rendering it on the board
 	this->figures.erase(key);
 }

@@ -8,6 +8,8 @@ protected:
 	int figure_size = 48;
 	int square_size = 64;
 	std::string color;
+	std::string type;
+
 	sf::Sprite figure;
 	sf::Texture figureTexture;
 
@@ -23,6 +25,5 @@ public:
 	virtual void update();
 
 	virtual void move() = 0;
-	virtual void remove() = 0;
 	virtual void availableMoves() = 0;
 };

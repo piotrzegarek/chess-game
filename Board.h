@@ -57,10 +57,13 @@ public:
 
     void render(sf::RenderTarget* target, float window_x, float window_y);
     void renderSquare(int row, int col, bool highlight);
-    void renderFigures();
 
     std::string getActiveSquare();
     void highlightSquare(int row, int col);
+
+    // Handling figures functions
+    void renderFigures();
+    void removeFigure(std::string key);
 };
 
 #endif GAMESTATE_H
