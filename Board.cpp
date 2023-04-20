@@ -121,8 +121,8 @@ void Board::render(sf::RenderTarget* target, float window_x, float window_y)
 	target->draw(this->boardWindow);
 
 	this->renderFigures();
+	this->renderRemovedFigures(target, window_x, window_y);
 }
-
 
 void Board::renderSquare(int row, int col, bool highlight)
 {
@@ -180,8 +180,47 @@ void Board::renderFigures()
 	}
 }
 
+void Board::renderRemovedFigures(sf::RenderTarget* target, float window_x, float window_y)
+{
+	for (auto it = this->removedBlackFigures.begin(); it != this->removedBlackFigures.end(); it++)
+	{
+		int index = std::distance(this->removedBlackFigures.begin(), it);
+		sf::Vector2f position;
+		if (index < 7) {
+			position.x = (window_x / 2.f) + 5 * square_size + (index * 0.25 * square_size);
+			position.y = (window_y / 6.f) + 0.5 * square_size;
+		}
+		else {
+			position.x = (window_x / 2.f) + 5 * square_size + ((index - 7) * 0.25 * square_size);
+			position.y = (window_y / 6.f) + square_size;
+		}
+		it->get()->renderRemoved(target, position);
+	}
+	for (auto it = this->removedWhiteFigures.begin(); it != this->removedWhiteFigures.end(); it++)
+	{
+		int index = std::distance(this->removedWhiteFigures.begin(), it);
+		sf::Vector2f position;
+		if (index < 7) {
+			position.x = (window_x / 2.f) + 5 * square_size + (index * 0.25 * square_size);
+			position.y = (window_y / 6.f) + 6.5 * square_size;
+		}
+		else {
+			position.x = (window_x / 2.f) + 5 * square_size + ((index - 7) * 0.25 * square_size);
+			position.y = (window_y / 6.f) + 7 * square_size;
+		}
+		it->get()->renderRemoved(target, position);
+	}
+}
+
 void Board::removeFigure(std::string key)
 {
 	// Deleting figure from board map and stop rendering it on the board
+	if (this->figures.at(key)->getColor() == "white")
+	{
+		this->removedWhiteFigures.push_back(std::move(this->figures.at(key)));
+	}
+	else {
+		this->removedBlackFigures.push_back(std::move(this->figures.at(key)));
+	}
 	this->figures.erase(key);
 }

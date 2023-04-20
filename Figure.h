@@ -17,11 +17,15 @@ public:
 	Figure(std::string color="white");
 	virtual ~Figure();
 
+	// Accessors
+	virtual std::string getColor();
+
 	// Initializer functions
 	virtual void initTexture() = 0;
 
 	// Functions
 	virtual void render(sf::RenderTexture* target, sf::Vector2f indexPosition);
+	virtual void renderRemoved(sf::RenderTarget* target, sf::Vector2f position);
 	virtual void update();
 
 	virtual void move() = 0;

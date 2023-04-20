@@ -5,6 +5,7 @@
 #include "Button.h"
 #include "Figure.h"
 #include "FigureFactory.h"
+#include "vector"
 
 class Board
 {
@@ -28,6 +29,9 @@ private:
     };
     std::map<std::string, sf::Vector2f> boardIndexes;
     std::map<std::string, std::unique_ptr<Figure>> figures;
+
+    std::vector<std::unique_ptr<Figure>> removedBlackFigures;
+    std::vector<std::unique_ptr<Figure>> removedWhiteFigures;
 
     sf::Color white_square_color = sf::Color(238, 238, 211);
     sf::Color black_square_color = sf::Color(118, 150, 86);
@@ -63,6 +67,7 @@ public:
 
     // Handling figures functions
     void renderFigures();
+    void renderRemovedFigures(sf::RenderTarget* target, float window_x, float window_y);
     void removeFigure(std::string key);
 };
 
