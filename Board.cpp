@@ -4,13 +4,14 @@
 
 void Board::initKeyTime()
 {
+	// Initialize key timer for handling key inputs
 	this->keyTimeMax = 0.3f;
 	this->keyTimer.restart();
 }
 
 void Board::initBackground()
 {
-	// Render 8x8 squares
+	// Render 8x8 squares board
 	boardTexture.create(square_size*8, square_size*8);
 	for (int row = 0; row < 8; row++) {
 		for (int col = 0; col < 8; col++)
@@ -29,6 +30,7 @@ void Board::initBackground()
 
 void Board::initFigures()
 {
+	// Initialize all figures using Figure Factory
 	std::map<std::string, std::pair<std::string, std::string>> start_placement = { 
 		{"a1", {"white", "rook"}}, {"h1", {"white", "rook"}}, {"a8", {"black", "rook"}}, {"h8", {"black", "rook"}},
 		{"b1", {"white", "knight"}}, {"g1", {"white", "knight"}}, {"b8", {"black", "knight"}}, {"g8", {"black", "knight"}},
@@ -38,12 +40,12 @@ void Board::initFigures()
 	FigureFactory factory;
 
 	auto it = start_placement.begin();
-	for (it = start_placement.begin(); it != start_placement.end(); ++it)
+	for (it = start_placement.begin(); it != start_placement.end(); ++it)	// Loop for initializing main figures
 	{
 		std::unique_ptr<Figure> figure = std::move(factory.createFigure(it->second.first, it->second.second));
 		this->figures.emplace(std::make_pair(it->first, std::move(figure)));
 	}
-	for (char a = 'a'; a < 'a' + 8; ++a)
+	for (char a = 'a'; a < 'a' + 8; ++a)	// Loop for initializing all pawns
 	{
 		std::string char_position(1, a);
 		std::string white_position = char_position + "2";
@@ -73,6 +75,7 @@ Board::~Board()
 
 const bool Board::getKeyTime()
 {
+	// Get true if key timer is above max key time
 	if (this->keyTimer.getElapsedTime().asSeconds() >= this->keyTimeMax)
 	{
 		this->keyTimer.restart();
@@ -86,12 +89,14 @@ const bool Board::getKeyTime()
 
 void Board::update(const sf::Vector2f mousePos)
 {
+	// Check for new inputs on the board
 	this->updateMousePos(mousePos);
 	this->updateBoardSquare();
 }
 
 void Board::updateMousePos(const sf::Vector2f mousePos)
 {
+	// Update mouse position on the board
 	sf::Vector2f sprite_position = this->boardWindow.getPosition();
 	this->mousePosBoard.x = mousePos.x - sprite_position.x;
 	this->mousePosBoard.y = mousePos.y - sprite_position.y;
@@ -99,6 +104,7 @@ void Board::updateMousePos(const sf::Vector2f mousePos)
 
 void Board::updateBoardSquare()
 {
+	// Handle board mouse inputs
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && this->getKeyTime() &&
 		this->mousePosBoard.x >= 0 && this->mousePosBoard.x <= this->square_size * 8 &&
 		this->mousePosBoard.y >= 0 && this->mousePosBoard.y <= this->square_size * 8)
@@ -116,6 +122,7 @@ void Board::updateBoardSquare()
 
 void Board::render(sf::RenderTarget* target, float window_x, float window_y)
 {
+	// Render board texture and figures to the board
 	this->boardWindow.setPosition((window_x / 2.f) - 4 * square_size, window_y / 6.f);
 	this->boardWindow.setTexture(this->boardTexture.getTexture());
 	target->draw(this->boardWindow);
@@ -126,6 +133,7 @@ void Board::render(sf::RenderTarget* target, float window_x, float window_y)
 
 void Board::renderSquare(int row, int col, bool highlight)
 {
+	// Render single square for board creation
 	sf::RectangleShape square;
 	square.setSize(sf::Vector2f(square_size, square_size));
 	if (highlight == true)
@@ -146,6 +154,7 @@ void Board::renderSquare(int row, int col, bool highlight)
 
 std::string Board::getActiveSquare()
 {
+	// Get currently clicked square key
 	int col = this->mousePosBoard.x / this->square_size;
 	int row = this->mousePosBoard.y / this->square_size;
 
@@ -159,6 +168,7 @@ std::string Board::getActiveSquare()
 
 void Board::highlightSquare(int row, int col)
 {
+	// Change square color to highlighted indicated by row and column
 	if (this->activeSquare["x"] != 9)
 	{
 		this->renderSquare(this->activeSquare["y"], this->activeSquare["x"], false);
@@ -171,6 +181,7 @@ void Board::highlightSquare(int row, int col)
 
 void Board::renderFigures()
 {
+	// Render all active figures in current positions
 	auto it = this->figures.begin();
 	for (it = this->figures.begin(); it != this->figures.end(); ++it)
 	{
@@ -182,6 +193,7 @@ void Board::renderFigures()
 
 void Board::renderRemovedFigures(sf::RenderTarget* target, float window_x, float window_y)
 {
+	// Render all removed figures next to the board
 	for (auto it = this->removedBlackFigures.begin(); it != this->removedBlackFigures.end(); it++)
 	{
 		int index = std::distance(this->removedBlackFigures.begin(), it);
@@ -214,7 +226,7 @@ void Board::renderRemovedFigures(sf::RenderTarget* target, float window_x, float
 
 void Board::removeFigure(std::string key)
 {
-	// Deleting figure from board map and stop rendering it on the board
+	// Delete figure from board map and stop rendering it on the board
 	if (this->figures.at(key)->getColor() == "white")
 	{
 		this->removedWhiteFigures.push_back(std::move(this->figures.at(key)));
