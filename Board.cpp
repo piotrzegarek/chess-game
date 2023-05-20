@@ -139,14 +139,12 @@ void Board::updateFigureMoving()
 	if (!(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) && this->movingFigure == true) {
 		this->movingFigure = false;
 		if (this->figures.find(this->movingKey) != this->figures.end()) {
-			std::cout << "found figure at " << movingKey << "\n";
 			this->figures.at(this->movingKey)->setMoving(false);
+			this->moveFigure();
 		}
 		else {
 			std::cout << "not figure at " << movingKey << "\n";
 		}
-		std::string moved_to_key = this->getActiveSquare();
-		std::cout << "stopped figure at " << moved_to_key << "\n";
 	}
 }
 
@@ -245,6 +243,14 @@ void Board::renderRemovedFigures(sf::RenderTarget* target, float window_x, float
 }
 
 // Functions
+
+void Board::moveFigure() {
+	// Move figure to the new place
+	this->figures.at(this->movingKey)->setMoving(false);
+	std::string moved_to_key = this->getActiveSquare();
+	this->figures.emplace(std::make_pair(moved_to_key, std::move(this->figures[this->movingKey])));
+	this->figures.erase(this->movingKey);
+}
 
 void Board::removeFigure(std::string key)
 {

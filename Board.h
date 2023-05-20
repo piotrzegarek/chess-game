@@ -72,6 +72,7 @@ public:
     void renderBoard();
     void renderFigures();
     void renderRemovedFigures(sf::RenderTarget* target, float window_x, float window_y);
+    void moveFigure();
     void removeFigure(std::string key);
 };
 
