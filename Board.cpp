@@ -16,7 +16,6 @@ void Board::initBackground()
 	for (int row = 0; row < 8; row++) {
 		for (int col = 0; col < 8; col++)
 		{
-			this->renderSquare(row, col, false);
 			std::string key = this->boardKeys[row][col];
 			sf::Vector2f centerOfSquare(
 				(static_cast<float>(col) * square_size),
@@ -85,13 +84,14 @@ const bool Board::getKeyTime()
 	return false;
 }
 
-// Functions
+// Update Functions
 
 void Board::update(const sf::Vector2f mousePos)
 {
 	// Check for new inputs on the board
 	this->updateMousePos(mousePos);
 	this->updateBoardSquare();
+	this->updateFigureMoving();
 }
 
 void Board::updateMousePos(const sf::Vector2f mousePos)
@@ -110,7 +110,6 @@ void Board::updateBoardSquare()
 		this->mousePosBoard.y >= 0 && this->mousePosBoard.y <= this->square_size * 8)
 	{
 		std::string key = this->getActiveSquare();
-
 	}
 	else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) &&
 		!(this->mousePosBoard.x >= 0 && this->mousePosBoard.x <= this->square_size * 8 &&
@@ -120,15 +119,55 @@ void Board::updateBoardSquare()
 	}
 }
 
+void Board::updateFigureMoving()
+{
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && 
+		this->mousePosBoard.x >= 0 && this->mousePosBoard.x <= this->square_size * 8 &&
+		this->mousePosBoard.y >= 0 && this->mousePosBoard.y <= this->square_size * 8)
+	{
+		int col = this->mousePosBoard.x / this->square_size;
+		int row = this->mousePosBoard.y / this->square_size;
+		std::string key = this->boardKeys[row][col];
+		if (this->figures.find(key) != this->figures.end() && this->movingFigure != true) {
+			this->movingFigure = true;
+			std::cout << "moving figure" << "\n";
+			this->figures.at(key)->setMoving(true);
+		}
+	}
+	if (!(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) && this->movingFigure == true) {
+		std::cout << "stopped figure" << "\n";
+		this->movingFigure = false;
+		std::string moved_to_key = this->getActiveSquare();
+		std::cout << moved_to_key << "\n";
+	}
+}
+
+// Render functions
+
 void Board::render(sf::RenderTarget* target, float window_x, float window_y)
 {
 	// Render board texture and figures to the board
 	this->boardWindow.setPosition((window_x / 2.f) - 4 * square_size, window_y / 6.f);
-	this->boardWindow.setTexture(this->boardTexture.getTexture());
-	target->draw(this->boardWindow);
-
+	// clear board texture
+	this->boardTexture.clear(sf::Color::Red);
+	// render elements in the texture
+	this->renderBoard();
 	this->renderFigures();
 	this->renderRemovedFigures(target, window_x, window_y);
+
+	// Render texture to the window
+	this->boardWindow.setTexture(this->boardTexture.getTexture());
+	target->draw(this->boardWindow);
+}
+
+void Board::renderBoard() {
+	// Render 8x8 squares on board
+	for (int row = 0; row < 8; row++) {
+		for (int col = 0; col < 8; col++)
+		{
+			this->renderSquare(row, col, false);
+		}
+	}
 }
 
 void Board::renderSquare(int row, int col, bool highlight)
@@ -152,33 +191,6 @@ void Board::renderSquare(int row, int col, bool highlight)
 	this->boardTexture.display();
 }
 
-std::string Board::getActiveSquare()
-{
-	// Get currently clicked square key
-	int col = this->mousePosBoard.x / this->square_size;
-	int row = this->mousePosBoard.y / this->square_size;
-
-	std::string key = this->boardKeys[row][col];
-	std::cout << key << " " << col << " " << row <<"\n";
-	this->highlightSquare(row, col);
-	this->removeFigure(key);
-
-	return key;
-}
-
-void Board::highlightSquare(int row, int col)
-{
-	// Change square color to highlighted indicated by row and column
-	if (this->activeSquare["x"] != 9)
-	{
-		this->renderSquare(this->activeSquare["y"], this->activeSquare["x"], false);
-	}
-	this->activeSquare["x"] = col;
-	this->activeSquare["y"] = row;
-
-	this->renderSquare(row, col, true);
-}
-
 void Board::renderFigures()
 {
 	// Render all active figures in current positions
@@ -187,7 +199,7 @@ void Board::renderFigures()
 	{
 		std::string alphPosition = it->first;
 		sf::Vector2f indexPosition = this->boardIndexes[alphPosition];
-		it->second->render(&this->boardTexture, this->boardIndexes[alphPosition]);
+		it->second->render(&this->boardTexture, this->boardIndexes[alphPosition], mousePosBoard);
 	}
 }
 
@@ -224,6 +236,8 @@ void Board::renderRemovedFigures(sf::RenderTarget* target, float window_x, float
 	}
 }
 
+// Functions
+
 void Board::removeFigure(std::string key)
 {
 	// Delete figure from board map and stop rendering it on the board
@@ -235,4 +249,29 @@ void Board::removeFigure(std::string key)
 		this->removedBlackFigures.push_back(std::move(this->figures.at(key)));
 	}
 	this->figures.erase(key);
+}
+
+std::string Board::getActiveSquare()
+{
+	// Get currently clicked square key
+	int col = this->mousePosBoard.x / this->square_size;
+	int row = this->mousePosBoard.y / this->square_size;
+
+	std::string key = this->boardKeys[row][col];
+	this->highlightSquare(row, col);
+
+	return key;
+}
+
+void Board::highlightSquare(int row, int col)
+{
+	// Change square color to highlighted indicated by row and column
+	if (this->activeSquare["x"] != 9)
+	{
+		this->renderSquare(this->activeSquare["y"], this->activeSquare["x"], false);
+	}
+	this->activeSquare["x"] = col;
+	this->activeSquare["y"] = row;
+
+	this->renderSquare(row, col, true);
 }

@@ -38,6 +38,7 @@ private:
     sf::Color white_highlight_square_color = sf::Color(232, 232, 151);
     sf::Color black_highlight_square_color = sf::Color(142, 212, 72);
 
+    bool movingFigure = false;
     sf::Clock keyTimer;
     float keyTimeMax;
 
@@ -58,6 +59,7 @@ public:
     void update(const sf::Vector2f mousePos);
     void updateMousePos(const sf::Vector2f mousePos);
     void updateBoardSquare();
+    void updateFigureMoving();
 
     void render(sf::RenderTarget* target, float window_x, float window_y);
     void renderSquare(int row, int col, bool highlight);
@@ -66,6 +68,7 @@ public:
     void highlightSquare(int row, int col);
 
     // Handling figures functions
+    void renderBoard();
     void renderFigures();
     void renderRemovedFigures(sf::RenderTarget* target, float window_x, float window_y);
     void removeFigure(std::string key);
