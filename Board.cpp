@@ -127,18 +127,26 @@ void Board::updateFigureMoving()
 	{
 		int col = this->mousePosBoard.x / this->square_size;
 		int row = this->mousePosBoard.y / this->square_size;
-		std::string key = this->boardKeys[row][col];
-		if (this->figures.find(key) != this->figures.end() && this->movingFigure != true) {
+		if (this->movingFigure != true) {
+			this->movingKey = this->boardKeys[row][col];
+		}
+		if (this->figures.find(this->movingKey) != this->figures.end() && this->movingFigure != true) {
 			this->movingFigure = true;
-			std::cout << "moving figure" << "\n";
-			this->figures.at(key)->setMoving(true);
+			std::cout << "moving figure from " << this->movingKey << "\n";
+			this->figures.at(this->movingKey)->setMoving(true);
 		}
 	}
 	if (!(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) && this->movingFigure == true) {
-		std::cout << "stopped figure" << "\n";
 		this->movingFigure = false;
+		if (this->figures.find(this->movingKey) != this->figures.end()) {
+			std::cout << "found figure at " << movingKey << "\n";
+			this->figures.at(this->movingKey)->setMoving(false);
+		}
+		else {
+			std::cout << "not figure at " << movingKey << "\n";
+		}
 		std::string moved_to_key = this->getActiveSquare();
-		std::cout << moved_to_key << "\n";
+		std::cout << "stopped figure at " << moved_to_key << "\n";
 	}
 }
 

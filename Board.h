@@ -39,6 +39,7 @@ private:
     sf::Color black_highlight_square_color = sf::Color(142, 212, 72);
 
     bool movingFigure = false;
+    std::string movingKey = "";
     sf::Clock keyTimer;
     float keyTimeMax;
 
