@@ -18,6 +18,6 @@ public:
     // Functions
     void move();
     void remove();
-    void availableMoves();
+    std::vector<std::string> availableMoves(std::string key);
 };
 

@@ -31,5 +31,5 @@ public:
 	virtual void update();
 
 	virtual void move(sf::Vector2f mousePosition);
-	virtual void availableMoves() = 0;
+	virtual std::vector<std::string> availableMoves(std::string key) = 0;
 };

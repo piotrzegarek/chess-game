@@ -36,6 +36,43 @@ void Pawn::remove()
 {
 }
 
-void Pawn::availableMoves()
+std::vector<std::string> Pawn::availableMoves(std::string key)
 {
+	char col = key[0];
+	int row = int(key[1] - '0');
+	std::vector <std::string> moves;
+	std::string move = "";
+
+	if (this->color == "white") {
+		if (row == 2) {
+			move = col;
+			move += std::to_string(row + 1);
+			moves.push_back(move);
+			move = col;
+			move += std::to_string(row + 2);
+			moves.push_back(move);
+		}
+		else {
+			move = col;
+			move += std::to_string(row + 1);
+			moves.push_back(move);
+		}
+	}
+	else {
+		if (row == 7) {
+			move = col;
+			move += std::to_string(row - 1);
+			moves.push_back(move);
+			move = col;
+			move += std::to_string(row - 2);
+			moves.push_back(move);
+		}
+		else {
+			move = col;
+			move += std::to_string(row - 1);
+			moves.push_back(move);
+		}
+	}
+
+	return moves;
 }

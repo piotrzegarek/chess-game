@@ -115,7 +115,8 @@ void Board::updateBoardSquare()
 		!(this->mousePosBoard.x >= 0 && this->mousePosBoard.x <= this->square_size * 8 &&
 			this->mousePosBoard.y >= 0 && this->mousePosBoard.y <= this->square_size * 8))
 	{		
-		this->renderSquare(this->activeSquare["y"], this->activeSquare["x"], false);
+		this->activeSquare["x"] = 9;
+		this->activeSquare["y"] = 9;
 	}
 }
 
@@ -125,16 +126,7 @@ void Board::updateFigureMoving()
 		this->mousePosBoard.x >= 0 && this->mousePosBoard.x <= this->square_size * 8 &&
 		this->mousePosBoard.y >= 0 && this->mousePosBoard.y <= this->square_size * 8)
 	{
-		int col = this->mousePosBoard.x / this->square_size;
-		int row = this->mousePosBoard.y / this->square_size;
-		if (this->movingFigure != true) {
-			this->movingKey = this->boardKeys[row][col];
-		}
-		if (this->figures.find(this->movingKey) != this->figures.end() && this->movingFigure != true) {
-			this->movingFigure = true;
-			std::cout << "moving figure from " << this->movingKey << "\n";
-			this->figures.at(this->movingKey)->setMoving(true);
-		}
+		this->setFigureMoving();
 	}
 	if (!(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) && this->movingFigure == true) {
 		this->movingFigure = false;
@@ -171,7 +163,13 @@ void Board::renderBoard() {
 	for (int row = 0; row < 8; row++) {
 		for (int col = 0; col < 8; col++)
 		{
-			this->renderSquare(row, col, false);
+			if (this->activeSquare["x"] == row && this->activeSquare["y"] == col)
+			{
+				this->renderSquare(col, row, true);
+			}
+			else {
+				this->renderSquare(col, row, false);
+			}
 		}
 	}
 }
@@ -244,12 +242,28 @@ void Board::renderRemovedFigures(sf::RenderTarget* target, float window_x, float
 
 // Functions
 
+void Board::setFigureMoving() {
+	int col = this->mousePosBoard.x / this->square_size;
+	int row = this->mousePosBoard.y / this->square_size;
+	if (this->movingFigure != true) {
+		this->movingKey = this->boardKeys[row][col];
+	}
+	if (this->figures.find(this->movingKey) != this->figures.end() && this->movingFigure != true) {
+		this->movingFigure = true;
+		this->figures.at(this->movingKey)->setMoving(true);
+	}
+}
+
 void Board::moveFigure() {
 	// Move figure to the new place
 	this->figures.at(this->movingKey)->setMoving(false);
 	std::string moved_to_key = this->getActiveSquare();
-	this->figures.emplace(std::make_pair(moved_to_key, std::move(this->figures[this->movingKey])));
-	this->figures.erase(this->movingKey);
+	std::vector<std::string> moves = this->figures.at(this->movingKey)->availableMoves(this->movingKey);
+
+	if (this->movingKey != moved_to_key && (std::find(moves.begin(), moves.end(), moved_to_key) != moves.end())) {
+		this->figures.emplace(std::make_pair(moved_to_key, std::move(this->figures[this->movingKey])));
+		this->figures.erase(this->movingKey);
+	}
 }
 
 void Board::removeFigure(std::string key)
@@ -272,20 +286,8 @@ std::string Board::getActiveSquare()
 	int row = this->mousePosBoard.y / this->square_size;
 
 	std::string key = this->boardKeys[row][col];
-	this->highlightSquare(row, col);
-
-	return key;
-}
-
-void Board::highlightSquare(int row, int col)
-{
-	// Change square color to highlighted indicated by row and column
-	if (this->activeSquare["x"] != 9)
-	{
-		this->renderSquare(this->activeSquare["y"], this->activeSquare["x"], false);
-	}
 	this->activeSquare["x"] = col;
 	this->activeSquare["y"] = row;
 
-	this->renderSquare(row, col, true);
+	return key;
 }

@@ -18,5 +18,8 @@ public:
     // Functions
     void move();
     void remove();
-    void availableMoves();
+    std::vector<std::string> availableMoves(std::string key);
+
+    std::vector<int> getPositionIndexes(char col, int row);
+    std::string calculatePosition(int col_pos, int col_move, int row_pos, int row_move);
 };

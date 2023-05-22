@@ -36,6 +36,25 @@ void Rook::remove()
 {
 }
 
-void Rook::availableMoves()
+std::vector<std::string> Rook::availableMoves(std::string key)
 {
+	char col = key[0];
+	int row = int(key[1] - '0');
+	std::vector <std::string> moves;
+	std::string move = "";
+
+	for (int i = 1; i < 9; ++i) {
+		move = col;
+		move += std::to_string(i);
+		moves.push_back(move);
+	}
+
+	std::vector<std::string> columns = { "a", "b", "c", "d", "e", "f", "g", "h" };
+	for (size_t i = 0; i < columns.size(); i++) {
+		move = columns[i];
+		move += std::to_string(row);
+		moves.push_back(move);
+	}
+
+	return moves;
 }
