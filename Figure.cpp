@@ -21,6 +21,11 @@ std::string Figure::getColor()
 	return this->color;
 }
 
+std::string Figure::getType()
+{
+	return this->type;
+}
+
 void Figure::render(sf::RenderTexture* target, sf::Vector2f indexPosition, sf::Vector2f mousePosBoard)
 {
 	if (this->moving == false) {

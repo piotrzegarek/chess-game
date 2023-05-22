@@ -9,6 +9,7 @@ Rook::Rook(std::string color)
 	: Figure(color)
 {
 	this->initTexture();
+	this->type = "rook";
 }
 
 Rook::~Rook()

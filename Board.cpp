@@ -261,8 +261,22 @@ void Board::moveFigure() {
 	std::vector<std::string> moves = this->figures.at(this->movingKey)->availableMoves(this->movingKey);
 
 	if (this->movingKey != moved_to_key && (std::find(moves.begin(), moves.end(), moved_to_key) != moves.end())) {
-		this->figures.emplace(std::make_pair(moved_to_key, std::move(this->figures[this->movingKey])));
-		this->figures.erase(this->movingKey);
+		// check if other figure is on this place
+		if (this->figures.find(moved_to_key) != this->figures.end()) {
+			// check if othe figure is enemy and not king
+			if ((this->figures.at(this->movingKey)->getColor() != this->figures.at(moved_to_key)->getColor()) &&
+				(this->figures.at(moved_to_key)->getType() != "king")) {
+				// remove enemy figure
+				this->removeFigure(moved_to_key);
+				this->figures.emplace(std::make_pair(moved_to_key, std::move(this->figures[this->movingKey])));
+				this->figures.erase(this->movingKey);
+			}
+		}
+		else {
+			// if not - move figure to new place
+			this->figures.emplace(std::make_pair(moved_to_key, std::move(this->figures[this->movingKey])));
+			this->figures.erase(this->movingKey);
+		}
 	}
 }
 

@@ -9,6 +9,7 @@ King::King(std::string color)
 	: Figure(color)
 {
 	this->initTexture();
+	this->type = "king";
 }
 
 King::~King()

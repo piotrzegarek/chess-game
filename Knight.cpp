@@ -9,6 +9,7 @@ Knight::Knight(std::string color)
 	: Figure(color)
 {
 	this->initTexture();
+	this->type = "knight";
 }
 
 Knight::~Knight()

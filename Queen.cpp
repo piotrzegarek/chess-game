@@ -9,6 +9,7 @@ Queen::Queen(std::string color)
 	: Figure(color)
 {
 	this->initTexture();
+	this->type = "queen";
 }
 
 Queen::~Queen()

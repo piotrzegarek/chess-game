@@ -9,6 +9,7 @@ Bishop::Bishop(std::string color)
 	: Figure(color)
 {
 	this->initTexture();
+	this->type = "bishop";
 }
 
 Bishop::~Bishop()

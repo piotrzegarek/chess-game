@@ -9,6 +9,7 @@ Pawn::Pawn(std::string color)
 	: Figure(color)
 {
 	this->initTexture();
+	this->type = "pawn";
 }
 
 Pawn::~Pawn()

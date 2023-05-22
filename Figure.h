@@ -21,6 +21,7 @@ public:
 	// Accessors
 	virtual void setMoving(bool isMoving);
 	virtual std::string getColor();
+	virtual std::string getType();
 
 	// Initializer functions
 	virtual void initTexture() = 0;
