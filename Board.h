@@ -29,6 +29,7 @@ private:
     };
     std::map<std::string, sf::Vector2f> boardIndexes;
     std::map<std::string, std::unique_ptr<Figure>> figures;
+    std::string turn = "white";
 
     std::vector<std::unique_ptr<Figure>> removedBlackFigures;
     std::vector<std::unique_ptr<Figure>> removedWhiteFigures;
@@ -55,6 +56,7 @@ public:
 
     //Accessors
     const bool getKeyTime();
+    std::string getTurn();
 
     // Functions
     void update(const sf::Vector2f mousePos);
@@ -64,17 +66,19 @@ public:
 
     void render(sf::RenderTarget* target, float window_x, float window_y);
     void renderSquare(int row, int col, bool highlight);
-
+    void renderText(sf::RenderTarget* target, float window_x, float window_y);
     std::string getActiveSquare();
-    void highlightSquare(int row, int col);
 
     // Handling figures functions
     void renderBoard();
     void renderFigures();
     void renderRemovedFigures(sf::RenderTarget* target, float window_x, float window_y);
     void setFigureMoving();
+    bool checkColision(std::string new_position);
     void moveFigure();
     void removeFigure(std::string key);
+
+    void endTurn();
 };
 
 #endif GAMESTATE_H

@@ -9,6 +9,7 @@ class GameState :
 {
 private:
     Board* board;
+    sf::Text titleText;
 
     sf::Clock keyTimer;
     float keyTimeMax;
@@ -17,6 +18,7 @@ private:
     void initBackground();
     void initKeybinds();
     void initBoard();
+    void initTexts();
     void initKeyTime();
 
 public:
@@ -32,6 +34,7 @@ public:
 
     void updateInput(const float& dt);
     void updateBoard();
+    void updateText();
     void update(const float& dt);
     void renderBoard(sf::RenderTarget* target = nullptr);
     void render(sf::RenderTarget* target = nullptr);

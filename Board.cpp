@@ -84,6 +84,12 @@ const bool Board::getKeyTime()
 	return false;
 }
 
+std::string Board::getTurn()
+{
+	return this->turn;
+}
+
+
 // Update Functions
 
 void Board::update(const sf::Vector2f mousePos)
@@ -249,8 +255,10 @@ void Board::setFigureMoving() {
 		this->movingKey = this->boardKeys[row][col];
 	}
 	if (this->figures.find(this->movingKey) != this->figures.end() && this->movingFigure != true) {
-		this->movingFigure = true;
-		this->figures.at(this->movingKey)->setMoving(true);
+		if (this->figures.at(this->movingKey)->getColor() == this->turn) {
+			this->movingFigure = true;
+			this->figures.at(this->movingKey)->setMoving(true);
+		}
 	}
 }
 
@@ -261,23 +269,38 @@ void Board::moveFigure() {
 	std::vector<std::string> moves = this->figures.at(this->movingKey)->availableMoves(this->movingKey);
 
 	if (this->movingKey != moved_to_key && (std::find(moves.begin(), moves.end(), moved_to_key) != moves.end())) {
+		// check if not jumping over other figure
+		if (this->checkColision(moved_to_key) == true)
+			return;
 		// check if other figure is on this place
 		if (this->figures.find(moved_to_key) != this->figures.end()) {
-			// check if othe figure is enemy and not king
+			// check if other figure is enemy and not king
 			if ((this->figures.at(this->movingKey)->getColor() != this->figures.at(moved_to_key)->getColor()) &&
 				(this->figures.at(moved_to_key)->getType() != "king")) {
 				// remove enemy figure
 				this->removeFigure(moved_to_key);
 				this->figures.emplace(std::make_pair(moved_to_key, std::move(this->figures[this->movingKey])));
 				this->figures.erase(this->movingKey);
+				this->endTurn();
 			}
 		}
 		else {
 			// if not - move figure to new place
 			this->figures.emplace(std::make_pair(moved_to_key, std::move(this->figures[this->movingKey])));
 			this->figures.erase(this->movingKey);
+			this->endTurn();
 		}
 	}
+}
+
+bool Board::checkColision(std::string new_position) {
+	// Check if any other figure is placed in the route from old to new position.
+	// King and knight don't need to be checked
+	if (this->figures.at(this->movingKey)->getType() == "knight" ||
+		this->figures.at(this->movingKey)->getType() == "king")
+		return false;
+	// TO-DO: zrobiæ listê pozycji drogi ze starej do nowej pozycji i sprawdziæ, czy na którejœ z pozycji jest figura jakaœ.
+	return false;
 }
 
 void Board::removeFigure(std::string key)
@@ -304,4 +327,13 @@ std::string Board::getActiveSquare()
 	this->activeSquare["y"] = row;
 
 	return key;
+}
+
+void Board::endTurn() {
+	if (this->turn == "white") {
+		this->turn = "black";
+	}
+	else {
+		this->turn = "white";
+	}
 }

@@ -24,6 +24,19 @@ void GameState::initBoard()
 	this->board = new Board();
 }
 
+void GameState::initTexts()
+{
+	this->titleText.setFont(this->font);
+	this->titleText.setString("White's turn");
+	this->titleText.setFillColor(sf::Color::White);
+	this->titleText.setCharacterSize(26);
+
+	this->titleText.setPosition(
+		this->window->getSize().x / 2.f - this->titleText.getGlobalBounds().width / 2.f,
+		this->window->getSize().y / 12.f
+	);
+}
+
 void GameState::initKeyTime()
 {
 	this->keyTimeMax = 0.3f;
@@ -38,6 +51,7 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suppo
 	this->initFonts();
 	this->initKeybinds();
 	this->initBoard();
+	this->initTexts();
 	this->initKeyTime();
 }
 
@@ -80,12 +94,18 @@ void GameState::updateBoard()
 	this->board->update(this->mousePosView);
 }
 
+void GameState::updateText() {
+	std::string text = this->board->getTurn() + "'s turn";
+	this->titleText.setString(text);
+}
+
 void GameState::update(const float& dt)
 {
 	this->updateMousePositions();
 	this->updateKeytime(dt);
 	this->updateInput(dt);
 	this->updateBoard();
+	this->updateText();
 }
 
 void GameState::renderBoard(sf::RenderTarget* target)
@@ -103,4 +123,5 @@ void GameState::render(sf::RenderTarget* target)
 	target->draw(this->background);
 
 	this->renderBoard(target);
+	target->draw(this->titleText);
 }
