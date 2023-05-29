@@ -13,6 +13,16 @@ void GameState::initBackground()
 	this->background.setTexture(&this->bgTexture);
 }
 
+void GameState::initButtons()
+{
+	// TO-DO: zmieniæ na nullptr
+	this->buttons["BACK_BTN"] = new Button(
+		this->window->getSize().x / 10.f, this->window->getSize().y - this->window->getSize().y / 6.f,
+		120, 50,
+		&this->font, "Back", 20,
+		sf::Color(70, 70, 70, 200), sf::Color(150, 150, 150, 255), sf::Color(20, 20, 20, 200));
+}
+
 void GameState::initKeybinds()
 {
 	this->keybinds.emplace("PRINT", this->supportedKeys->at("A"));
@@ -53,12 +63,18 @@ GameState::GameState(sf::RenderWindow* window, std::map<std::string, int>* suppo
 	this->initBoard();
 	this->initTexts();
 	this->initKeyTime();
+	this->initButtons();
 }
 
 GameState::~GameState()
 {
 	std::cout << "Deleting board object" << "\n";
 	delete this->board;
+	auto it = this->buttons.begin();
+	for (it = this->buttons.begin(); it != this->buttons.end(); ++it)
+	{
+		delete it->second;
+	}
 }
 
 const bool GameState::getKeyTime()
@@ -82,11 +98,17 @@ void GameState::endState()
 void GameState::updateInput(const float& dt)
 {
 	// Update player input
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(this->keybinds.at("PRINT"))) && this->getKeytime())
-		std::cout << "A pressed in a Game State" << "\n";
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && this->getKeytime())
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) && this->getKeytime() || this->buttons["BACK_BTN"]->isPressed())
 		this->wantsEnd = true;
+}
+
+void GameState::updateButtons()
+{
+	/* Updates all the buttons and handle their functions. */
+	for (auto& it : this->buttons)
+	{
+		it.second->update(this->mousePosView);
+	}
 }
 
 void GameState::updateBoard()
@@ -104,8 +126,17 @@ void GameState::update(const float& dt)
 	this->updateMousePositions();
 	this->updateKeytime(dt);
 	this->updateInput(dt);
+	this->updateButtons();
 	this->updateBoard();
 	this->updateText();
+}
+
+void GameState::renderButtons(sf::RenderTarget* target)
+{
+	for (auto& it : this->buttons)
+	{
+		it.second->render(target);
+	}
 }
 
 void GameState::renderBoard(sf::RenderTarget* target)
@@ -123,5 +154,6 @@ void GameState::render(sf::RenderTarget* target)
 	target->draw(this->background);
 
 	this->renderBoard(target);
+	this->renderButtons(target);
 	target->draw(this->titleText);
 }
