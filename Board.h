@@ -66,7 +66,6 @@ public:
 
     void render(sf::RenderTarget* target, float window_x, float window_y);
     void renderSquare(int row, int col, bool highlight);
-    void renderText(sf::RenderTarget* target, float window_x, float window_y);
     std::string getActiveSquare();
 
     // Handling figures functions

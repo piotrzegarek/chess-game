@@ -111,7 +111,7 @@ void Board::updateMousePos(const sf::Vector2f mousePos)
 void Board::updateBoardSquare()
 {
 	// Handle board mouse inputs
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && this->getKeyTime() &&
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left) && this->getKeyTime() && this->movingFigure == false &&
 		this->mousePosBoard.x >= 0 && this->mousePosBoard.x <= this->square_size * 8 &&
 		this->mousePosBoard.y >= 0 && this->mousePosBoard.y <= this->square_size * 8)
 	{
@@ -204,12 +204,20 @@ void Board::renderSquare(int row, int col, bool highlight)
 void Board::renderFigures()
 {
 	// Render all active figures in current positions
+	sf::Vector2f indexPosition;
+	std::string alphPosition;
 	auto it = this->figures.begin();
 	for (it = this->figures.begin(); it != this->figures.end(); ++it)
 	{
-		std::string alphPosition = it->first;
-		sf::Vector2f indexPosition = this->boardIndexes[alphPosition];
-		it->second->render(&this->boardTexture, this->boardIndexes[alphPosition], mousePosBoard);
+		alphPosition = it->first;
+		if (alphPosition != this->movingKey) {
+			indexPosition = this->boardIndexes[alphPosition];
+			it->second->render(&this->boardTexture, indexPosition, mousePosBoard);
+		}
+	}
+	if (this->figures.find(this->movingKey) != this->figures.end()) {
+		indexPosition = this->boardIndexes[this->movingKey];
+		this->figures.at(this->movingKey)->render(&this->boardTexture, indexPosition, mousePosBoard);
 	}
 }
 
